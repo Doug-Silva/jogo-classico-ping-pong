@@ -6,7 +6,7 @@
   </div><br>
 
   <h1>Jogo Ping-Pong</h1>
-  <p>Um jogo clássico e muito interessante, o Ping-Pong, programado em JavaScript
+  <p>Um jogo clássico e muito interessante, o Ping-Pong, programado em JavaScript<br>
     Projeto elaborado no curso de programação: DevSamurai (https://devsamurai.com.br)
   </p>
 
