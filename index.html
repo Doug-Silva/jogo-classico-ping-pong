@@ -2,75 +2,24 @@
 <html lang="pt-br">
 
 <head>
+    <!-- Metadados -->
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- CSS -->
+    <link rel="stylesheet" type="text/css" href="./assets/css/style.css">
+
+    <!-- Icone da página -->
+    <link rel="shortcut icon" type="imagem/x-icon" href="./assets/img/favicon.ico" />
+
+    <!-- Título da página -->
     <title>Jogo Ping-Pong</title>
-    <style>
-        * {
-            overflow: hidden;
-            margin: 0;
-            padding: 0;
-        }
-    </style>
 </head>
 
 <body>
     <canvas></canvas>
-    <script>
-        const canvasEl = document.querySelector("canvas");
-        const canvasCtx = canvasEl.getContext("2d");
-
-        const lineWidth = 15;
-
-        function setup() {
-            canvasEl.width = canvasCtx.width = window.innerWidth;
-            canvasEl.height = canvasCtx.height = window.innerHeight;
-        }
-
-        function draw() {
-
-            //desenha o campo
-            canvasCtx.fillStyle = "#286047";
-            canvasCtx.fillRect(0, 0, window.innerWidth, window.innerHeight);
-            canvasCtx.fillStyle = "#ffffff";
-
-            //desenha a linha central
-            canvasCtx.fillRect(
-                window.innerWidth / 2 - lineWidth / 2,
-                0,
-                lineWidth,
-                window.innerHeight
-            );
-
-            //desenha a raquete esquerda
-            canvasCtx.fillRect(10, 100, lineWidth, 200);
-
-            //desenha a raquete direita
-            canvasCtx.fillRect(
-                window.innerWidth - lineWidth - 10,
-                200, 
-                lineWidth, 
-                200
-            );
-
-            //desenha a bolinha
-            canvasCtx.beginPath();
-            canvasCtx.arc(500, 300, 20, 0, 2 * Math.PI, false);
-            canvasCtx.fill();
-
-            //desenha o placar
-            canvasCtx.font = "bold 72px Arial";
-            canvasCtx.textAlign = "center";
-            canvasCtx.textBaseline = "top";
-            canvasCtx.fillStyle = "#01341D";
-            canvasCtx.fillText("3", window.innerWidth / 4, 50);
-            canvasCtx.fillText("1", window.innerWidth / 4 + window.innerWidth / 2, 50);
-        }
-
-        setup();
-        draw();
-    </script>
+    <script src="./assets/js/app.js"></script>
 </body>
 
 </html>
