@@ -1,51 +1,90 @@
 const canvasEl = document.querySelector("canvas");
 const canvasCtx = canvasEl.getContext("2d");
+const gapX = 10;
 
-const lineWidth = 15;
+//desenha o campo
+const field = {
+    w: window.innerWidth,
+    h: window.innerHeight,
+    draw: function () {
+        canvasCtx.fillStyle = "#286047";
+        canvasCtx.fillRect(0, 0, this.w, this.h);
+    },
+}
+
+//desenha a linha central
+const line = {
+    w: 15,
+    h: field.h,
+    draw: function () {
+        canvasCtx.fillStyle = "#ffffff";
+        canvasCtx.fillRect(field.w / 2 - this.w / 2, 0, this.w, this.h)
+    },
+}
+
+//desenha a raquete esquerda
+const leftPaddle = {
+    x: gapX,
+    y: 100,
+    w: line.w,
+    h: 200,
+    draw: function () {
+        canvasCtx.fillStyle = "#ffffff";
+        canvasCtx.fillRect(this.x, this.y, this.w, this.h);
+    },
+}
+
+//desenha a raquete direita
+const rightPaddle = {
+    x: field.w - line.w - gapX,
+    y: 100,
+    w: line.w,
+    h: 200,
+    draw: function () {
+        canvasCtx.fillStyle = "#ffffff";
+        canvasCtx.fillRect(this.x, this.y, this.w, this.h);
+    },
+}
+
+//desenha o placar
+const score = {
+    human: 1,
+    computer: 2,
+    draw: function () {
+        canvasCtx.font = "bold 72px Arial";
+        canvasCtx.textAlign = "center";
+        canvasCtx.textBaseline = "top";
+        canvasCtx.fillStyle = "#01341D";
+        canvasCtx.fillText(this.human, field.w / 4, 50);
+        canvasCtx.fillText(this.computer, field.w / 4 + field.w / 2, 50);
+    },
+}
+
+//desenha a bolinha
+const ball = {
+    x: 470,
+    y: 120,
+    r: 20,
+    draw: function () {
+        canvasCtx.fillStyle = "#ffffff";
+        canvasCtx.beginPath();
+        canvasCtx.arc(this.x, this.y, this.r, 0, 2 * Math.PI, false);
+        canvasCtx.fill();
+    },
+}
 
 function setup() {
-    canvasEl.width = canvasCtx.width = window.innerWidth;
-    canvasEl.height = canvasCtx.height = window.innerHeight;
+    canvasEl.width = canvasCtx.width = field.w;
+    canvasEl.height = canvasCtx.height = field.h;
 }
 
 function draw() {
-
-    //desenha o campo
-    canvasCtx.fillStyle = "#286047";
-    canvasCtx.fillRect(0, 0, window.innerWidth, window.innerHeight);
-    canvasCtx.fillStyle = "#ffffff";
-
-    //desenha a linha central
-    canvasCtx.fillRect(
-        window.innerWidth / 2 - lineWidth / 2,
-        0,
-        lineWidth,
-        window.innerHeight
-    );
-
-    //desenha a raquete esquerda
-    canvasCtx.fillRect(10, 100, lineWidth, 200);
-
-    //desenha a raquete direita
-    canvasCtx.fillRect(
-        window.innerWidth - lineWidth - 10,
-        200,
-        lineWidth,
-        200
-    );
-
-    //desenha a bolinha
-    canvasCtx.beginPath();
-    canvasCtx.arc(500, 300, 20, 0, 2 * Math.PI, false);
-    canvasCtx.fill();
-
-    //desenha o placar
-    canvasCtx.font = "bold 72px Arial";
-    canvasCtx.textAlign = "center";
-    canvasCtx.textBaseline = "top";
-    canvasCtx.fillStyle = "#01341D";
-    canvasCtx.fillText("3", window.innerWidth / 4, 50);
-    canvasCtx.fillText("1", window.innerWidth / 4 + window.innerWidth / 2, 50);
+    field.draw();
+    line.draw();
+    leftPaddle.draw();
+    rightPaddle.draw();
+    score.draw();
+    ball.draw();
 }
 
 setup();
