@@ -1,7 +1,7 @@
 const canvasEl = document.querySelector("canvas");
 const canvasCtx = canvasEl.getContext("2d");
 const gapX = 10;
-const mouse = { x: 0, y: 0};
+const mouse = { x: 0, y: 0 };
 
 //desenha o campo
 const field = {
@@ -35,7 +35,7 @@ const leftPaddle = {
     _move: function () {
         this.y = mouse.y - this.h / 2;
     },
-    
+
     draw: function () {
         canvasCtx.fillStyle = "#ffffff";
         canvasCtx.fillRect(this.x, this.y, this.w, this.h);
@@ -80,22 +80,48 @@ const score = {
 
 //desenha a bolinha
 const ball = {
-    x: 470,
-    y: 120,
+    x: 0,
+    y: 0,
     r: 20,
     speed: 5,
+    directionX: 1,
+    directionY: 1,
+
+    //verifica as laterais superior e inferior da tela
+    _calcPosition: function () {
+        if (
+            (this.y - this.r < 0 && this.directionY < 0) ||
+            (this.y > field.h - this.r && this.directionY > 0)
+        ) {
+            //rebate a bola invertendo o sinal do eixo Y
+            this._reverseY();
+        }
+    },
+
+    // 1 * -1 = -1
+    // -1 * -1 = 1
+    _reverseX: function () {
+        this.directionX *= -1;
+    },
+
+    // 1 * -1 = -1
+    // -1 * -1 = 1
+    _reverseY: function () {
+        this.directionY *= -1;
+    },
 
     _move: function () {
-        this.x += 1 * this.speed;
-        this.y += 1 * this.speed;
+        this.x += this.directionX * this.speed;
+        this.y += this.directionY * this.speed;
     },
-    
+
     draw: function () {
         canvasCtx.fillStyle = "#ffffff";
         canvasCtx.beginPath();
         canvasCtx.arc(this.x, this.y, this.r, 0, 2 * Math.PI, false);
         canvasCtx.fill();
 
+        this._calcPosition();
         this._move();
     },
 }
@@ -116,18 +142,18 @@ function draw() {
 
 window.animateFrame = (function () {
     return (
-      window.requestAnimationFrame ||
-      window.webkitRequestAnimationFrame ||
-      window.mozRequestAnimationFrame ||
-      window.oRequestAnimationFrame ||
-      window.msRequestAnimationFrame ||
-      function (callback) {
-        return window.setTimeout(callback, 1000 / 60)
-      }
+        window.requestAnimationFrame ||
+        window.webkitRequestAnimationFrame ||
+        window.mozRequestAnimationFrame ||
+        window.oRequestAnimationFrame ||
+        window.msRequestAnimationFrame ||
+        function (callback) {
+            return window.setTimeout(callback, 1000 / 60)
+        }
     )
 })()
 
-function main () {
+function main() {
     animateFrame(main);
     draw();
 }
@@ -135,7 +161,7 @@ function main () {
 setup();
 main();
 
-canvasEl.addEventListener('mousemove', function(e) {
+canvasEl.addEventListener('mousemove', function (e) {
     mouse.x = e.pageX;
     mouse.y = e.pageY;
 })
