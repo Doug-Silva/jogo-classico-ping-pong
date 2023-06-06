@@ -65,8 +65,8 @@ const rightPaddle = {
 
 //desenha o placar
 const score = {
-    human: 1,
-    computer: 2,
+    human: 0,
+    computer: 0,
 
     increaseHuman: function () {
         this.human++;
@@ -104,6 +104,7 @@ const ball = {
             if (this.y + this.r > rightPaddle.y && 
                 this.y - this.r < rightPaddle.y + rightPaddle.h) 
             {
+
                 //rebate a bola invertendo o sinal do eixo X
                 this._reverseX();
             } else {
@@ -114,7 +115,25 @@ const ball = {
             }
         }
 
-        //verifica as laterais superior e inferior da tela
+        //verifica se o jogador 2 fez um ponto (x < 0)
+        if (this.x < this.r + leftPaddle.w + gapX) {
+
+            //verifica a raquete esquerda está na posição y da bola
+            if (this.y + this.r > leftPaddle.y && 
+                this.y - this.r < leftPaddle.y + leftPaddle.h) 
+            {
+
+                //rebate a bola invertendo o sinal do eixo X
+                this._reverseX();
+            } else {
+
+                //pontuar o jogador 2
+                score.increaseComputer();
+                this._pointUp();
+            }
+        }
+
+        //verifica as laterais superior e inferior do campo
         if (
             (this.y - this.r < 0 && this.directionY < 0) || 
             (this.y > field.h - this.r && this.directionY > 0)
