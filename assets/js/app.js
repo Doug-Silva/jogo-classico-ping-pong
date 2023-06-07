@@ -47,12 +47,21 @@ const leftPaddle = {
 //desenha a raquete direita
 const rightPaddle = {
     x: field.w - line.w - gapX,
-    y: 100,
+    y: 0,
     w: line.w,
     h: 200,
+    speed: 5,
 
     _move: function () {
-        this.y = ball.y;
+        if (this.y + this.h / 2 < ball.y + ball.r) {
+            this.y += this.speed;
+        } else {
+            this.y -= this.speed;
+        }
+    },
+
+    speedUp: function () {
+        this.speed += 2;
     },
 
     draw: function () {
@@ -88,8 +97,8 @@ const score = {
 
 //desenha a bolinha
 const ball = {
-    x: 0,
-    y: 0,
+    x: field.w / 2,
+    y: field.h / 2,
     r: 20,
     speed: 5,
     directionX: 1,
@@ -101,9 +110,8 @@ const ball = {
         if (this.x > field.w - this.r - rightPaddle.w - gapX) {
 
             //verifica a raquete direita está na posição y da bola
-            if (this.y + this.r > rightPaddle.y && 
-                this.y - this.r < rightPaddle.y + rightPaddle.h) 
-            {
+            if (this.y + this.r > rightPaddle.y &&
+                this.y - this.r < rightPaddle.y + rightPaddle.h) {
 
                 //rebate a bola invertendo o sinal do eixo X
                 this._reverseX();
@@ -119,9 +127,8 @@ const ball = {
         if (this.x < this.r + leftPaddle.w + gapX) {
 
             //verifica a raquete esquerda está na posição y da bola
-            if (this.y + this.r > leftPaddle.y && 
-                this.y - this.r < leftPaddle.y + leftPaddle.h) 
-            {
+            if (this.y + this.r > leftPaddle.y &&
+                this.y - this.r < leftPaddle.y + leftPaddle.h) {
 
                 //rebate a bola invertendo o sinal do eixo X
                 this._reverseX();
@@ -135,7 +142,7 @@ const ball = {
 
         //verifica as laterais superior e inferior do campo
         if (
-            (this.y - this.r < 0 && this.directionY < 0) || 
+            (this.y - this.r < 0 && this.directionY < 0) ||
             (this.y > field.h - this.r && this.directionY > 0)
         ) {
             //rebate a bola invertendo o sinal do eixo Y
@@ -155,7 +162,15 @@ const ball = {
         this.directionY *= -1;
     },
 
+    //aumenta a velocidade da bolinha
+    _speedUp: function () {
+        this.speed += 3;
+    },
+
     _pointUp: function () {
+        this._speedUp();
+        rightPaddle.speedUp();
+
         this.x = field.w / 2;
         this.y = field.h / 2;
     },
